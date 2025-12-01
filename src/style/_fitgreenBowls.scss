@@ -1,0 +1,147 @@
+.allproducts{
+
+    .btn-group{
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-bottom: 45px;
+        .btn-primary{            
+            border-color: var(--light-color);
+            background: white;
+            color: var(--dark-color);
+
+            &.active{
+                border-color: var(--primary-color);
+                color: var(--primary-color);                
+            }
+            &:hover{
+                border-color: var(--primary-color);
+                color: var(--primary-color);                
+            }
+        }
+
+        @media (width < 800px){
+            flex-direction: column;    
+            gap: 15px;
+            .btn-primary{
+                width: 100%;
+                text-align: center;                
+            }        
+        }
+    }
+
+    .curated-bowls{
+        display: grid;            
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+
+        .product-card{
+            text-align: center;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 0 14px 0 #0001;
+            .image-section{
+                width: 100%;
+                aspect-ratio: 1/1;
+                margin-bottom: 15px;
+                border-radius: 4px;
+                overflow: hidden;
+                img{
+                    object-fit: cover;
+                }
+            }
+            .title{
+                font-size: 1.4rem;
+                font-weight: 500;
+                color: var(--dark-color);
+                margin-bottom: 8px;
+            }
+            .desc{
+                font-size: .8rem;
+                opacity: .6;
+            }
+            .action-buttons{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 25px;
+                .btn-primary{
+                    &.green{
+                        border: none;
+                        border-radius: 4px;
+                        background: var(--primary-color);
+                        color: white;
+                    }
+                    &.gray{
+                        border: none;
+                        border-radius: 4px;
+                        background: #E3E2E1;
+                    }
+                }
+            }
+        }
+    }
+
+    .own-bowl{
+        .category{
+            margin-bottom: 55px;
+            .cate-title{
+                font-size: 1.5rem;
+                font-weight: 500;
+                text-decoration: underline;
+                text-transform: uppercase;
+                color: var(--primary-color);
+                margin-bottom: 25px;
+            }
+        }
+        .cate-items{
+            display: flex;
+            flex-wrap: wrap;            
+            gap: 30px;
+            .item-card{
+                width: 220px;
+                text-align: center;
+                padding: 8px;
+                border-radius: 8px;
+                box-shadow: 0 0 14px 0 #0001;
+                .image-section{
+                    width: 100%;
+                    aspect-ratio: 1/1;
+                    margin-bottom: 15px;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    img{
+                        object-fit: cover;
+                    }
+                }
+                .title{
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    color: var(--dark-color);
+                    margin-bottom: 4px;
+                }
+                .desc{
+                    font-size: .8rem;
+                    opacity: .6;
+                }
+            }
+
+            @media (width < 800px){
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                .item-card{
+                    width: 100%;
+                    .title{
+                        font-size: .9rem;                        
+                    }
+                    .desc{
+                        font-size: .7rem;
+                    }
+                }
+            }
+        }
+
+    }
+}
