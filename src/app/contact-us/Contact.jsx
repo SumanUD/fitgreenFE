@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ContactBanner } from "./ContactBanner";
 
 export const Contact = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ export const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://admin.fitgreen.in/api/contact", {
+      const response = await fetch("https://admin.fitgreen.in/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,6 +55,7 @@ export const Contact = () => {
 
   return (
     <div className="background">
+      <ContactBanner />
       <div className="container contact-page">
         <div className="screen">
 

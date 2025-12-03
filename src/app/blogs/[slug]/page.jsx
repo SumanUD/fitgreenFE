@@ -2,7 +2,7 @@ import BlogPage from "./BlogPage";
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch("http://admin.fitgreen.in/api/blogs", {
+    const res = await fetch("https://admin.fitgreen.in/api/blogs", {
       cache: "no-store",
     });
 

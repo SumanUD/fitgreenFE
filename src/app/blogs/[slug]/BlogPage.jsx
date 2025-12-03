@@ -8,7 +8,7 @@ export default function BlogPage({ slug }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://admin.fitgreen.in/api/blogs/${slug}`)
+    fetch(`https://admin.fitgreen.in/api/blogs/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         setBlog(data.blog);

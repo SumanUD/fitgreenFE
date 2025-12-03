@@ -7,7 +7,7 @@ export default function BlogListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://admin.fitgreen.in/api/blogs")
+    fetch("https://admin.fitgreen.in/api/blogs")
       .then((res) => res.json())
       .then((data) => {
         setBlogs(data.blogs);
@@ -31,13 +31,6 @@ export default function BlogListPage() {
 
   return (
     <div className="blog-page">
-      {/* PAGE BANNER */}
-      <div className="banner">
-        <h1>Our Blogs</h1>
-
-      </div>
-
-      {/* BLOG LIST */}
       <div className="blog-container">
         {loading ? (
           <div className="loading-state">
@@ -49,49 +42,45 @@ export default function BlogListPage() {
             <p>No blogs available at the moment.</p>
           </div>
         ) : (
-          <div className="blog-list">
+          <div className="list-article">
             {blogs.map((blog) => (
-              <div key={blog.id} className="blog-card">
-                {/* Blog Title at the top */}
-                <div className="blog-header">
-                  <h2 className="blog-title">
-                    {blog.title}
-                  </h2>
-                  
-                  {/* Author and Date */}
-                  <div className="blog-meta">
-                    <span className="blog-author">
-                      <i className="fas fa-user"></i> Team FitGreen
-                    </span>
-                    <span className="blog-date">
-                      <i className="fas fa-calendar"></i> {formatDate(blog.created_at || new Date())}
-                    </span>
+              <article key={blog.id} className="article-item">
+                {/* Title Link */}
+                <Link href={`/blogs/${blog.id}`} className="article-title-link">
+                  <h3 className="article-title">{blog.title}</h3>
+                </Link>
+
+                {/* Date and Author */}
+                <p className="article-meta">
+                  {formatDate(blog.created_at || new Date())} &nbsp;&nbsp; Team FitGreen
+                </p>
+
+                {/* Featured Image */}
+                <div className="article-featured-image">
+                  <div className="image-wrapper">
+                    <img
+                      src={blog.image_url}
+                      alt={blog.title}
+                    />
                   </div>
                 </div>
 
-                {/* Full Width Image */}
-                <div className="blog-image-container">
-                  <img
-                    src={blog.image_url}
-                    alt={blog.title}
-                    className="blog-image"
-                  />
-                  {/* <div className="read-overlay">READ MORE</div> */}
+                {/* Excerpt */}
+                <div className="article-excerpt">
+                  <p>
+                    {blog.meta_description || blog.content?.replace(/<[^>]*>/g, '').substring(0, 180) ||
+                      "Discover the latest insights on healthy eating, nutrition tips, and wellness advice from the FitGreen team. Learn how to make better food choices for a healthier lifestyle."}
+                    ...
+                  </p>
                 </div>
 
-                {/* Blog Description/Excerpt */}
-                <div className="blog-content">
-                  <p className="blog-excerpt">
-                    {blog.meta_description || blog.content?.substring(0, 300) || 
-                      "Style Like a Star: Celebrity-Inspired Men's Wedding Outfits Looking sharp at a wedding isn't just about wearing something formal - it's about wearing something memorable. Today's most stylish celebrities have set new trends in wedding fashion, mixing classic elegance with modern flair. Whether you're the groom, the best man, or..."}
-                  </p>
-
-                  {/* READ MORE button at bottom */}
-                  <Link href={`/blogs/${blog.id}`} className="read-more-btn">
-                    READ MORE <i className="fas fa-arrow-right"></i>
+                {/* Read More Button */}
+                <div className="article-action">
+                  <Link href={`/blogs/${blog.id}`} className="read-more-button">
+                    READ MORE
                   </Link>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         )}
@@ -100,356 +89,229 @@ export default function BlogListPage() {
       <style jsx>{`
         .blog-page {
           width: 100%;
-          background: #f8fafc;
           min-height: 100vh;
+          background: #fff;
+          padding: 60px 0;
         }
 
-        /* ---------------- BANNER ---------------- */
-        .banner {
-          width: 100%;
-          padding: 60px 20px;
-          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-            url("/banner-blog.jpg") center/cover no-repeat;
-          color: #fff;
-          text-align: center;
-          margin-bottom: 50px;
-        }
-        
-        .banner h1 {
-          font-size: 42px;
-          font-weight: 700;
-          margin-bottom: 15px;
-          font-family: 'Montserrat', sans-serif;
-        }
-        
-        .banner p {
-          font-size: 18px;
-          opacity: 0.9;
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.6;
-          font-weight: 300;
-        }
-
-        /* ---------------- BLOG CONTAINER ---------------- */
         .blog-container {
           max-width: 1200px;
-          margin: 0 auto 80px;
+          margin: 0 auto;
           padding: 0 20px;
         }
 
-        .blog-list {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 40px;
-        }
-
-        /* ---------------- BLOG CARD ---------------- */
-        .blog-card {
-          background: #fff;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-          border: 1px solid #e5e7eb;
-          transition: all 0.3s ease;
+        .list-article {
           display: flex;
           flex-direction: column;
-          height: 100%;
+          gap: 80px;
         }
 
-        .blog-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        /* Article Item */
+        .article-item {
+          background: #fff;
+          padding: 0;
         }
 
-        /* ---------------- BLOG HEADER ---------------- */
-        .blog-header {
-          padding: 25px 25px 15px;
+        /* Article Title Link */
+        .article-title-link {
+          text-decoration: none;
+          display: inline-block;
+          margin-bottom: 8px;
         }
 
-        /* ---------------- BLOG TITLE ---------------- */
-        .blog-title {
-          font-size: 22px;
-          font-weight: 700;
-          margin: 0 0 12px 0;
-          color: #1f2937;
+        .article-title {
+          font-size: 24px;
+          font-weight: 400;
+          margin: 0;
           line-height: 1.4;
-          font-family: 'Montserrat', sans-serif;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          min-height: 60px;
+          color: #1a1a1a;
+          transition: color 0.3s ease;
         }
 
-        /* ---------------- BLOG META ---------------- */
-        .blog-meta {
-          display: flex;
-          gap: 25px;
-          align-items: center;
-          margin-bottom: 10px;
-          font-size: 14px;
-          color: #6b7280;
+        .article-title-link:hover .article-title {
+          color: var(--primary-color);
         }
 
-        .blog-author, .blog-date {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .blog-author i, .blog-date i {
-          color: #4caf50;
+        /* Article Meta */
+        .article-meta {
           font-size: 13px;
+          color: #999;
+          margin: 0 0 20px 0;
+          font-weight: 400;
         }
 
-        .blog-author {
-          font-weight: 600;
-          color: #374151;
-        }
-
-        .blog-date {
-          color: #6b7280;
-        }
-
-        /* ---------------- BLOG IMAGE ---------------- */
-        .blog-image-container {
-          position: relative;
+        /* Featured Image */
+        .article-featured-image {
           width: 100%;
-          height: 250px;
+          margin-bottom: 25px;
           overflow: hidden;
-          flex-shrink: 0;
+          border-radius: 0;
         }
 
-        .blog-image {
+        .image-wrapper {
+          width: 100%;
+          height: 280px;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .image-wrapper img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.5s ease;
+          transition: transform 0.6s ease;
         }
 
-        .blog-card:hover .blog-image {
-          transform: scale(1.03);
+        .article-featured-image:hover .image-wrapper img {
+          transform: scale(1.08);
         }
 
-        .read-overlay {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: rgba(0, 0, 0, 0.85);
-          color: white;
-          padding: 12px 0;
-          text-align: center;
-          font-size: 13px;
+        /* Article Excerpt */
+        .article-excerpt {
+          margin-bottom: 20px;
+        }
+
+        .article-excerpt p {
+          font-size: 15px;
+          line-height: 1.7;
+          color: #4a4a4a;
+          margin: 0;
+        }
+
+        /* Read More Button */
+        .article-action {
+          margin-bottom: 0;
+        }
+
+        .read-more-button {
+          display: inline-block;
+          padding: 12px 35px;
+          background: transparent;
+          color: #1a1a1a;
+          border: 1px solid #1a1a1a;
+          text-decoration: none;
+          font-size: 12px;
           font-weight: 600;
           letter-spacing: 1.5px;
           text-transform: uppercase;
-        }
-
-        /* ---------------- BLOG CONTENT ---------------- */
-        .blog-content {
-          padding: 25px;
-          display: flex;
-          flex-direction: column;
-          flex-grow: 1;
-        }
-
-        /* ---------------- BLOG EXCERPT ---------------- */
-        .blog-excerpt {
-          font-size: 15px;
-          color: #4b5563;
-          line-height: 1.7;
-          margin: 0 0 20px 0;
-          font-family: 'Inter', sans-serif;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          flex-grow: 1;
-        }
-
-        /* ---------------- READ MORE BUTTON ---------------- */
-        .read-more-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          padding: 12px 32px;
-          background: #4caf50;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 600;
-          text-decoration: none;
-          cursor: pointer;
           transition: all 0.3s ease;
-          width: fit-content;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          font-family: 'Montserrat', sans-serif;
         }
 
-        .read-more-btn:hover {
-          background: #3d8b40;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        .read-more-button:hover {
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: #fff;
         }
 
-        .read-more-btn i {
-          font-size: 12px;
-          transition: transform 0.3s ease;
-        }
-
-        .read-more-btn:hover i {
-          transform: translateX(4px);
-        }
-
-        /* ---------------- LOADING STATE ---------------- */
+        /* Loading State */
         .loading-state {
           text-align: center;
-          padding: 80px 20px;
+          padding: 100px 20px;
         }
 
         .loading-spinner {
           width: 50px;
           height: 50px;
           border: 3px solid #f3f3f3;
-          border-top: 3px solid #4caf50;
+          border-top: 3px solid var(--primary-color);
           border-radius: 50%;
           animation: spin 1s linear infinite;
           margin: 0 auto 20px;
         }
 
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
 
         .loading-state p {
           color: #666;
           font-size: 16px;
+          margin: 0;
         }
 
-        /* ---------------- EMPTY STATE ---------------- */
+        /* Empty State */
         .empty-state {
           text-align: center;
-          padding: 60px 20px;
-          background: white;
+          padding: 80px 20px;
+          background: #f9fafb;
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
           border: 1px solid #e5e7eb;
         }
 
         .empty-state p {
           color: #666;
           font-size: 16px;
+          margin: 0;
         }
 
-        /* ---------------- RESPONSIVE DESIGN ---------------- */
+        /* Responsive Design */
         @media (max-width: 1024px) {
-          .blog-list {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+          .image-wrapper {
+            height: 260px;
           }
         }
 
         @media (max-width: 768px) {
-          .blog-container {
-            padding: 0 15px;
+          .blog-page {
+            padding: 40px 0;
           }
 
-          .blog-list {
-            grid-template-columns: 1fr;
-            gap: 30px;
+          .list-article {
+            gap: 60px;
           }
 
-          .blog-header {
-            padding: 20px 20px 12px;
+          .image-wrapper {
+            height: 240px;
           }
 
-          .blog-title {
+          .article-title {
             font-size: 20px;
-            min-height: auto;
           }
 
-          .blog-image-container {
-            height: 220px;
+          .article-meta {
+            font-size: 12px;
           }
 
-          .blog-content {
-            padding: 20px;
-          }
-
-          .blog-excerpt {
+          .article-excerpt p {
             font-size: 14px;
           }
 
-          .banner {
-            padding: 50px 20px;
-            margin-bottom: 40px;
-          }
-
-          .banner h1 {
-            font-size: 36px;
-          }
-
-          .banner p {
-            font-size: 16px;
+          .read-more-button {
+            padding: 10px 30px;
+            font-size: 11px;
           }
         }
 
         @media (max-width: 480px) {
-          .blog-header {
-            padding: 18px 18px 10px;
+          .blog-page {
+            padding: 30px 0;
           }
 
-          .blog-title {
+          .blog-container {
+            padding: 0 16px;
+          }
+
+          .list-article {
+            gap: 50px;
+          }
+
+          .image-wrapper {
+            height: 220px;
+          }
+
+          .article-title {
             font-size: 18px;
           }
 
-          .blog-meta {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 13px;
-          }
-
-          .blog-image-container {
-            height: 200px;
-          }
-
-          .blog-content {
-            padding: 18px;
-          }
-
-          .read-more-btn {
+          .read-more-button {
             width: 100%;
-            justify-content: center;
-            padding: 10px 24px;
-            font-size: 13px;
-          }
-
-          .banner h1 {
-            font-size: 32px;
-          }
-        }
-
-        @media (max-width: 360px) {
-          .blog-title {
-            font-size: 17px;
-          }
-
-          .blog-image-container {
-            height: 180px;
-          }
-
-          .blog-excerpt {
-            font-size: 13px;
+            text-align: center;
           }
         }
       `}</style>
