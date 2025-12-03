@@ -2,8 +2,8 @@
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 
-import img1 from '../../assets/images/bases/BrownRice.webp'
-import img2 from '../../assets/images/bases/CucumberArugulaBellPepper.webp'
+import img1 from '../../assets/images/bases/01-Biriyani.webp'
+import img2 from '../../assets/images/bases/02-Vitality-bowl.webp'
 
 
 
