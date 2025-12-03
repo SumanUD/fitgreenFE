@@ -1,0 +1,10 @@
+.corporatePage {
+  overflow-x: hidden;
+  
+  & > section {
+    scroll-margin-top: 80px; // For anchor links to account for fixed header
+  }
+  p{
+    color: white;
+  }
+}

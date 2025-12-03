@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-import mem1 from '@/assets/images/ad.jpeg';
+import mem1 from '@/assets/images/team1.jpg';
 import mem2 from '@/assets/images/tm2.jpg';
 import img from '@/assets/images/salad.jpg';
 import Link from 'next/link';
