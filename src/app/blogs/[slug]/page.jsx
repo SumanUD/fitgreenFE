@@ -1,18 +1,31 @@
 import BlogPage from "./BlogPage";
 
 export async function generateStaticParams() {
-  const res = await fetch("http://admin.fitgreen.in/api/blogs", {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch("http://admin.fitgreen.in/api/blogs", {
+      cache: "no-store",
+    });
 
-  const data = await res.json();
+    if (!res.ok) {
+      console.error('Failed to fetch blogs for static generation');
+      return [];
+    }
 
-  // FIX: ensure we always use an ARRAY
-  const blogs = Array.isArray(data.blogs) ? data.blogs : [];
+    const data = await res.json();
 
-  return blogs.map((item) => ({
-    slug: item.slug,
-  }));
+    // FIX: ensure we always use an ARRAY
+    const blogs = Array.isArray(data.blogs) ? data.blogs : [];
+
+    // Filter out items without slug or id, and use id if slug is not available
+    return blogs
+      .filter(item => item.slug || item.id)
+      .map((item) => ({
+        slug: String(item.slug || item.id),
+      }));
+  } catch (error) {
+    console.error('Error generating static params for blogs:', error);
+    return [];
+  }
 }
 
 export default function Page({ params }) {
