@@ -77,7 +77,7 @@ export const CuratedBowls = () => {
                         <Link href={'https://order.fitgreen.in/onlineorder/'} target='_blank'>
                             <div className="btn-primary green">order</div>
                         </Link>                        
-                        <Link href={`/fitgreen-bowls/${item.title.split(" ").join("-")}`}>
+                        <Link href={`/fitgreen-bowls/${item.title.toLowerCase().split(" ").join("-")}`}>
                           <div className="btn-primary gray">view</div>
                         </Link>
                     </div>
